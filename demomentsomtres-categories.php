@@ -2,9 +2,9 @@
 
 /*
   Plugin Name: DeMomentSomTres Categories
-  Plugin URI: http://demomentsomtres.com/
+  Plugin URI: http://demomentsomtres.com/english/wordpress-plugins/demomentsomtres-categories/
   Description: Displays all categories based on shortcode.
-  Version: 1.0
+  Version: 1.0.1
   Author: marcqueralt
   Author URI: http://demomentsomtres.com
   License: GPLv2 or later
