@@ -3,13 +3,13 @@
   Plugin Name: DeMomentSomTres Categories
   Plugin URI: http://demomentsomtres.com/english/wordpress-plugins/demomentsomtres-categories/
   Description: Displays all categories based on shortcode.
-  Version: 1.2
+  Version: 2.1
   Author: marcqueralt
   Author URI: http://demomentsomtres.com
   License: GPLv2 or later
  */
 
-define('DMS3_CATS_TEXT_DOMAIN','DeMomentSomTres-Categories');
+define('DMS3_CATS_TEXT_DOMAIN', 'DeMomentSomTres-Categories');
 
 // Make sure we don't expose any info if called directly
 if (!function_exists('add_action')) {
@@ -31,6 +31,9 @@ class DeMomentSomTresCategories {
     const OPTIONS = 'dmst_categories_options';
     const PAGE = 'dmst_categories';
     const SECTION1 = 'dmst_cats_exclusions';
+    
+    const OPTION_EXCLUDED_CATS = 'excludedCategories';
+    const OPTION_FILTER_CATS = OPTION_FILTER_CATS;
 
     private $pluginURL;
     private $pluginPath;
@@ -49,6 +52,9 @@ class DeMomentSomTresCategories {
         add_action('admin_init', array(&$this, 'admin_init'));
         add_action('widgets_init', array(&$this, 'register_widgets'));
         add_shortcode('DeMomentSomTres-Categories', array(&$this, 'demomentsomtres_categories_shortcode'));
+        if ('on' == DeMomentSomTresTools::get_option(self::OPTIONS, OPTION_FILTER_CATS)):
+            add_filter('get_the_categories', array(&$this, 'the_category_filter'), 10, 2);
+        endif;
     }
 
     /**
@@ -103,6 +109,7 @@ class DeMomentSomTresCategories {
         add_settings_section(DeMomentSomTresCategories::SECTION1, __('Excluded Categories', DeMomentSomTresCategories::TEXT_DOMAIN), array(&$this, 'admin_section_exclusions'), DeMomentSomTresCategories::PAGE);
 
         add_settings_field('dmst_cats_excluded_categories', __('Excluded Categories', DeMomentSomTresCategories::TEXT_DOMAIN), array(&$this, 'admin_field_excluded_categories'), DeMomentSomTresCategories::PAGE, DeMomentSomTresCategories::SECTION1);
+        add_settings_field('dmst_cats_filter_categories', __('Use the_category filter?', DeMomentSomTresCategories::TEXT_DOMAIN), array(&$this, 'admin_field_filter'), DeMomentSomTresCategories::PAGE, DeMomentSomTresCategories::SECTION1);
     }
 
     /**
@@ -125,7 +132,7 @@ class DeMomentSomTresCategories {
      * @since 2.0
      */
     function admin_field_excluded_categories() {
-        $name = 'excludedCategories';
+        $name = self::OPTION_EXCLUDED_CATS;
         $value = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, $name);
         DeMomentSomTresTools::adminHelper_inputArray(DeMomentSomTresCategories::OPTIONS, $name, $value, array(
             'class' => 'regular-text'
@@ -134,8 +141,21 @@ class DeMomentSomTresCategories {
         . __('Comma separated list of categories id.', DeMomentSomTresCategories::TEXT_DOMAIN);
     }
 
+    /**
+     * @since 2.1
+     */
+    function admin_field_filter() {
+        $name = OPTION_FILTER_CATS;
+        $value = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, $name);
+        DeMomentSomTresTools::adminHelper_inputArray(DeMomentSomTresCategories::OPTIONS, $name, $value, array(
+            'type' => 'checkbox'
+        ));
+        echo "<p style='font-size:0.8em;'>"
+        . __('Comma separated list of categories id.', DeMomentSomTresCategories::TEXT_DOMAIN);
+    }
+
     public static function getCategories($excludedCats, $args = array()) {
-        $globalExclude = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, 'excludedCategories', '');
+        $globalExclude = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, self::OPTION_EXCLUDED_CATS, '');
         $exclude = rtrim(ltrim($excludedCats . ',' . $globalExclude, ','), ',');
         $args = array(
             'type' => 'post',
@@ -192,6 +212,29 @@ class DeMomentSomTresCategories {
         return $output;
     }
 
+    /**
+     * 
+     * @param type $thelist
+     * @param type $separator
+     * @return type
+     * @since 2.1
+     */
+    function the_category_filter($cats, $separator = ',') {
+
+        if (!defined('WP_ADMIN')) {
+            $exclude = explode($separator,DeMomentSomTresTools::get_option(self::OPTIONS, self::OPTION_EXCLUDED_CATS));
+
+            $newlist = array();
+            foreach ($cats as $cat) {
+                if (!in_array($cat->term_id, $exclude))
+                    $newlist[] = $cat;
+            }
+            return $newlist;
+        } else {
+            return $cats;
+        }
+    }
+
 }
 
 /**
@@ -221,21 +264,21 @@ class DeMomentSomTresCategoriesWidget extends WP_Widget {
         $hierarchical = isset($instance['hierarchical']) ? (bool) $instance['hierarchical'] : false;
         $dropdown = isset($instance['dropdown']) ? (bool) $instance['dropdown'] : false;
         ?>
-<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:',  DeMomentSomTresCategories::TEXT_DOMAIN); ?></label>
+        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', DeMomentSomTresCategories::TEXT_DOMAIN); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo $title; ?>" /></p>
-        <p><label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('List class:',  DeMomentSomTresCategories::TEXT_DOMAIN); ?></label>
+        <p><label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('List class:', DeMomentSomTresCategories::TEXT_DOMAIN); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('class'); ?>" name="<?php echo $this->get_field_name('class'); ?>" type="text" value="<?php echo $class; ?>" /></p>
-        <p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Excluded categories ID (comma separated):',  DeMomentSomTresCategories::TEXT_DOMAIN); ?></label>
+        <p><label for="<?php echo $this->get_field_id('exclude'); ?>"><?php _e('Excluded categories ID (comma separated):', DeMomentSomTresCategories::TEXT_DOMAIN); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('exclude'); ?>" name="<?php echo $this->get_field_name('exclude'); ?>" type="text" value="<?php echo $exclude; ?>" /></p>
 
         <p><input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('dropdown'); ?>" name="<?php echo $this->get_field_name('dropdown'); ?>"<?php checked($dropdown); ?> />
-            <label for="<?php echo $this->get_field_id('dropdown'); ?>"><?php _e('Display as dropdown',  DeMomentSomTresCategories::TEXT_DOMAIN); ?></label><br />
+            <label for="<?php echo $this->get_field_id('dropdown'); ?>"><?php _e('Display as dropdown', DeMomentSomTresCategories::TEXT_DOMAIN); ?></label><br />
 
             <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked($count); ?> />
-            <label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Show post counts',  DeMomentSomTresCategories::TEXT_DOMAIN); ?></label><br />
+            <label for="<?php echo $this->get_field_id('count'); ?>"><?php _e('Show post counts', DeMomentSomTresCategories::TEXT_DOMAIN); ?></label><br />
 
             <input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('hierarchical'); ?>" name="<?php echo $this->get_field_name('hierarchical'); ?>"<?php checked($hierarchical); ?> />
-            <label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e('Show hierarchy',  DeMomentSomTresCategories::TEXT_DOMAIN); ?></label></p>
+            <label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e('Show hierarchy', DeMomentSomTresCategories::TEXT_DOMAIN); ?></label></p>
         <?php
     }
 
@@ -253,11 +296,11 @@ class DeMomentSomTresCategoriesWidget extends WP_Widget {
     function widget($args, $instance) {
 
         /** This filter is documented in wp-includes/default-widgets.php */
-        $title = apply_filters('widget_title', empty($instance['title']) ? __('Categories',  DeMomentSomTresCategories::TEXT_DOMAIN) : $instance['title'], $instance, $this->id_base);
+        $title = apply_filters('widget_title', empty($instance['title']) ? __('Categories', DeMomentSomTresCategories::TEXT_DOMAIN) : $instance['title'], $instance, $this->id_base);
         $class = $instance['class'];
         $exclude = $instance['exclude'];
-        
-        $globalExclude = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, 'excludedCategories', '');
+
+        $globalExclude = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS,  DeMomentSomTresCategories::OPTION_EXCLUDED_CATS, '');
         $exclude = rtrim(ltrim($exclude . ',' . $globalExclude, ','), ',');
 
 
@@ -273,7 +316,7 @@ class DeMomentSomTresCategoriesWidget extends WP_Widget {
         $cat_args = array('orderby' => 'name', 'show_count' => $c, 'hierarchical' => $h, 'exclude' => $exclude);
 
         if ($d) {
-            $cat_args['show_option_none'] = __('Select Category',  DeMomentSomTresCategories::TEXT_DOMAIN);
+            $cat_args['show_option_none'] = __('Select Category', DeMomentSomTresCategories::TEXT_DOMAIN);
 
             /**
              * Filter the arguments for the Categories widget drop-down.

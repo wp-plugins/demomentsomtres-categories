@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: DeMomentSomTres Categories v1.2\n"
+"Project-Id-Version: DeMomentSomTres Categories v2.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2014-07-01 16:05:54+0000\n"
+"PO-Revision-Date: 2014-07-16 14:45:43+0000\n"
 "Last-Translator: Marc Queralt <marc3@demomentsomtres.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,81 +20,87 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes"
 
-#: demomentsomtres-categories.php:73
-#: demomentsomtres-categories.php:82
-#: demomentsomtres-categories.php:210
+#: demomentsomtres-categories.php:79
+#: demomentsomtres-categories.php:88
+#: demomentsomtres-categories.php:253
 #@ DeMomentSomTres-Categories
 msgid "DeMomentSomTres Categories"
 msgstr "DeMomentSomTres Categories"
 
-#: demomentsomtres-categories.php:87
+#: demomentsomtres-categories.php:93
 #@ DeMomentSomTres-Categories
 msgid "Save Changes"
 msgstr "Desar els canvis"
 
-#: demomentsomtres-categories.php:91
+#: demomentsomtres-categories.php:97
 #@ DeMomentSomTres-Categories
 msgid "Options"
 msgstr "Opcions"
 
-#: demomentsomtres-categories.php:121
+#: demomentsomtres-categories.php:128
 #@ DeMomentSomTres-Categories
 msgid "Select the categories that you want to exclude from the shortcode and the widget"
 msgstr "Escolliu les categories que vulgueu excloure tan del shortcode com del giny"
 
-#: demomentsomtres-categories.php:134
+#: demomentsomtres-categories.php:141
+#: demomentsomtres-categories.php:154
 #@ DeMomentSomTres-Categories
 msgid "Comma separated list of categories id."
 msgstr "Llista d&apos;identificadors de categoria separats per comes."
 
-#: demomentsomtres-categories.php:208
+#: demomentsomtres-categories.php:251
 #@ DeMomentSomTres-Categories
 msgid "Shows a Categories List"
 msgstr "Mostra una llista de categories"
 
-#: demomentsomtres-categories.php:224
+#: demomentsomtres-categories.php:267
 #@ DeMomentSomTres-Categories
 msgid "Title:"
 msgstr "Títol:"
 
-#: demomentsomtres-categories.php:226
+#: demomentsomtres-categories.php:269
 #@ DeMomentSomTres-Categories
 msgid "List class:"
 msgstr "Classe de la llista:"
 
-#: demomentsomtres-categories.php:228
+#: demomentsomtres-categories.php:271
 #@ DeMomentSomTres-Categories
 msgid "Excluded categories ID (comma separated):"
 msgstr "Categories excloses (IDs separats per comes)."
 
-#: demomentsomtres-categories.php:232
+#: demomentsomtres-categories.php:275
 #@ DeMomentSomTres-Categories
 msgid "Display as dropdown"
 msgstr "Mostrar com a llista desplegable"
 
-#: demomentsomtres-categories.php:235
+#: demomentsomtres-categories.php:278
 #@ DeMomentSomTres-Categories
 msgid "Show post counts"
 msgstr "Mostra el nombre d'entrades"
 
-#: demomentsomtres-categories.php:238
+#: demomentsomtres-categories.php:281
 #@ DeMomentSomTres-Categories
 msgid "Show hierarchy"
 msgstr "Mostra la jerarquia"
 
-#: demomentsomtres-categories.php:256
+#: demomentsomtres-categories.php:299
 #@ DeMomentSomTres-Categories
 msgid "Categories"
 msgstr "Categories"
 
-#: demomentsomtres-categories.php:276
+#: demomentsomtres-categories.php:319
 #@ DeMomentSomTres-Categories
 msgid "Select Category"
 msgstr "Escolliu una categoria"
 
-#: demomentsomtres-categories.php:103
-#: demomentsomtres-categories.php:105
+#: demomentsomtres-categories.php:109
+#: demomentsomtres-categories.php:111
 #@ DeMomentSomTres-Categories
 msgid "Excluded Categories"
 msgstr "Categories excloses"
+
+#: demomentsomtres-categories.php:112
+#@ DeMomentSomTres-Categories
+msgid "Use the_category filter?"
+msgstr "Activar el flitre the_category?"
 
