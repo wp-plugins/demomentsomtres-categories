@@ -39,6 +39,9 @@ TBD
 
 == Changelog ==
 
+= 2.2 =
+* Admin categories field changed from text to textarea
+
 = 2.1 =
 * Filter the_category option and filter added
 

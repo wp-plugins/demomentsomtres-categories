@@ -3,7 +3,7 @@
   Plugin Name: DeMomentSomTres Categories
   Plugin URI: http://demomentsomtres.com/english/wordpress-plugins/demomentsomtres-categories/
   Description: Displays all categories based on shortcode.
-  Version: 2.1
+  Version: 2.2
   Author: marcqueralt
   Author URI: http://demomentsomtres.com
   License: GPLv2 or later
@@ -135,6 +135,7 @@ class DeMomentSomTresCategories {
         $name = self::OPTION_EXCLUDED_CATS;
         $value = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, $name);
         DeMomentSomTresTools::adminHelper_inputArray(DeMomentSomTresCategories::OPTIONS, $name, $value, array(
+            'type' => 'textarea',
             'class' => 'regular-text'
         ));
         echo "<p style='font-size:0.8em;'>"
