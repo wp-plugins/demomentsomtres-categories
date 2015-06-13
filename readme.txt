@@ -32,7 +32,12 @@ The solution was to build this plugin to build the table of content on the fly.
 1. Use plugin usual installation process.
 
 == Frequently Asked Questions ==
-TBD
+= How to use the shortcode =
+The shortcode is called using this syntax [DeMomentSomTres-Categories exclude="id1,id2,id3"]
+
+= Which categories are excluded in the shortcode? =
+
+All categories that are in the exclude attribute or are set as excluded in settings will be excluded from the shortcode.
 
 == Screenshots ==
 TBD
@@ -40,6 +45,7 @@ TBD
 == Changelog ==
 
 = 2.2.1 =
+* Documentation improve ;)
 * Warning messages solved
 
 = 2.2 =
