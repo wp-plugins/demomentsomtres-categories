@@ -3,7 +3,7 @@
   Plugin Name: DeMomentSomTres Categories
   Plugin URI: http://demomentsomtres.com/english/wordpress-plugins/demomentsomtres-categories/
   Description: Displays all categories based on shortcode.
-  Version: 2.2
+  Version: 2.2.1
   Author: marcqueralt
   Author URI: http://demomentsomtres.com
   License: GPLv2 or later
@@ -33,7 +33,7 @@ class DeMomentSomTresCategories {
     const SECTION1 = 'dmst_cats_exclusions';
     
     const OPTION_EXCLUDED_CATS = 'excludedCategories';
-    const OPTION_FILTER_CATS = OPTION_FILTER_CATS;
+    const OPTION_FILTER_CATS = 'OPTION_FILTER_CATS';
 
     private $pluginURL;
     private $pluginPath;
@@ -52,7 +52,7 @@ class DeMomentSomTresCategories {
         add_action('admin_init', array(&$this, 'admin_init'));
         add_action('widgets_init', array(&$this, 'register_widgets'));
         add_shortcode('DeMomentSomTres-Categories', array(&$this, 'demomentsomtres_categories_shortcode'));
-        if ('on' == DeMomentSomTresTools::get_option(self::OPTIONS, OPTION_FILTER_CATS)):
+        if ('on' == DeMomentSomTresTools::get_option(self::OPTIONS, self::OPTION_FILTER_CATS)):
             add_filter('get_the_categories', array(&$this, 'the_category_filter'), 10, 2);
         endif;
     }
@@ -146,7 +146,7 @@ class DeMomentSomTresCategories {
      * @since 2.1
      */
     function admin_field_filter() {
-        $name = OPTION_FILTER_CATS;
+        $name = self::OPTION_FILTER_CATS;
         $value = DeMomentSomTresTools::get_option(DeMomentSomTresCategories::OPTIONS, $name);
         DeMomentSomTresTools::adminHelper_inputArray(DeMomentSomTresCategories::OPTIONS, $name, $value, array(
             'type' => 'checkbox'

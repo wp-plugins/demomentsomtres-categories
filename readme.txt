@@ -39,6 +39,9 @@ TBD
 
 == Changelog ==
 
+= 2.2.1 =
+* Warning messages solved
+
 = 2.2 =
 * Admin categories field changed from text to textarea
 
