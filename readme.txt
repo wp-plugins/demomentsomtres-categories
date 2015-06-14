@@ -3,7 +3,7 @@ Contributors: marcqueralt
 Donate link: http://demomentsomtres.com
 Tags: archives, category, all posts
 Requires at least: 3.5.2
-Tested up to: 3.5.2
+Tested up to: 4.2.2
 Stable tag: trunk
 License: GPLv2
 
